@@ -33,12 +33,12 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
     var rtcEngine by remember { mutableStateOf<RtcEngine?>(null) }
     var error by remember { mutableStateOf<String?>(null) }
     var localSurfaceView by remember { mutableStateOf<SurfaceView?>(null) }
-    var remoteSurfaceView by remember { mutableStateOf<SurfaceView?>(null) }
+    var remoteUid by remember { mutableStateOf<Int?>(null) }
     val coroutineScope = rememberCoroutineScope()
     
     val isScreenShare = channelName.endsWith("_screen")
     
-    var permissionsGranted by remember { mutableStateOf(false) }
+    var permissionsGranted by remember { mutableStateOf(!isBroadcaster) }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -46,15 +46,17 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
         permissionsGranted = permissions.values.all { it }
     }
 
-    LaunchedEffect(Unit) {
-        val requiredPermissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
-        val hasPermissions = requiredPermissions.all {
-            ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
-        }
-        if (hasPermissions) {
-            permissionsGranted = true
-        } else {
-            permissionLauncher.launch(requiredPermissions)
+    LaunchedEffect(isBroadcaster) {
+        if (isBroadcaster) {
+            val requiredPermissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
+            val hasPermissions = requiredPermissions.all {
+                ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+            }
+            if (hasPermissions) {
+                permissionsGranted = true
+            } else {
+                permissionLauncher.launch(requiredPermissions)
+            }
         }
     }
 
@@ -74,24 +76,13 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
                     override fun onUserJoined(uid: Int, elapsed: Int) {
                         super.onUserJoined(uid, elapsed)
                         if (!isBroadcaster) {
-                            coroutineScope.launch {
-                                withContext(Dispatchers.Main) {
-                                    val surfaceView = SurfaceView(context)
-                                    surfaceView.setZOrderMediaOverlay(true)
-                                    rtcEngine?.setupRemoteVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, uid))
-                                    remoteSurfaceView = surfaceView
-                                }
-                            }
+                            remoteUid = uid
                         }
                     }
                     override fun onUserOffline(uid: Int, reason: Int) {
                         super.onUserOffline(uid, reason)
-                        if (!isBroadcaster) {
-                            coroutineScope.launch {
-                                withContext(Dispatchers.Main) {
-                                    remoteSurfaceView = null
-                                }
-                            }
+                        if (!isBroadcaster && remoteUid == uid) {
+                            remoteUid = null
                         }
                     }
                 }
@@ -119,7 +110,16 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
                     FirebaseFirestore.getInstance().collection("tournaments").document(actualChannelName).update("status", "Live")
                 }
                 
-                engine.joinChannel(null, actualChannelName, "Extra Optional Data", 0)
+                val options = io.agora.rtc2.ChannelMediaOptions()
+                options.clientRoleType = if (isBroadcaster) Constants.CLIENT_ROLE_BROADCASTER else Constants.CLIENT_ROLE_AUDIENCE
+                options.publishCameraTrack = isBroadcaster && !isScreenShare
+                options.publishMicrophoneTrack = isBroadcaster
+                options.publishScreenCaptureVideo = isBroadcaster && isScreenShare
+                options.publishScreenCaptureAudio = isBroadcaster && isScreenShare
+                options.autoSubscribeAudio = true
+                options.autoSubscribeVideo = true
+                
+                engine.joinChannel(null, actualChannelName, 0, options)
                 
                 rtcEngine = engine
             } catch (e: Exception) {
@@ -167,9 +167,17 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
                 )
             } else if (isBroadcaster && isScreenShare) {
                 Text("Screen sharing in progress...", modifier = Modifier.align(Alignment.Center))
-            } else if (!isBroadcaster && remoteSurfaceView != null) {
+            } else if (!isBroadcaster && remoteUid != null) {
                 AndroidView(
-                    factory = { remoteSurfaceView!! },
+                    factory = { ctx ->
+                        SurfaceView(ctx).apply {
+                            setZOrderMediaOverlay(true)
+                            rtcEngine?.setupRemoteVideo(VideoCanvas(this, VideoCanvas.RENDER_MODE_HIDDEN, remoteUid!!))
+                        }
+                    },
+                    update = { view ->
+                        rtcEngine?.setupRemoteVideo(VideoCanvas(view, VideoCanvas.RENDER_MODE_HIDDEN, remoteUid!!))
+                    },
                     modifier = Modifier.fillMaxSize()
                 )
             } else if (!permissionsGranted) {

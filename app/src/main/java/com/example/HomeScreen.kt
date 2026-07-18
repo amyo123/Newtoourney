@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.launch
 
+@com.google.firebase.firestore.IgnoreExtraProperties
 data class Tournament(
     val id: String = "",
     val name: String = "",
