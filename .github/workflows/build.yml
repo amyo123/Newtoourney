@@ -1,10 +1,10 @@
 name: Build and Release Android APK
 
 on:
-  workflow_dispatch: # This adds the "Run workflow" button on the website
+  workflow_dispatch: # Allows you to click the button on the website
   push:
     branches:
-      - main # This automatically builds when you edit code on the main branch
+      - main
 
 jobs:
   build-and-release:
@@ -27,13 +27,20 @@ jobs:
         with:
           gradle-version: '9.3.1'
 
+      # --- ADD THIS NEW STEP HERE ---
+      - name: Generate Dummy Debug Keystore
+        run: |
+          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+
+      # ------------------------------
+
       - name: Build Debug APK
         run: gradle assembleDebug
 
       - name: Auto-Create Release and Upload APK
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: build-${{ github.run_number }} # Automatically creates a unique tag like "build-4"
-          name: Auto Build ${{ github.run_number }} # Automatically names the release
+          tag_name: build-${{ github.run_number }}
+          name: Auto Build ${{ github.run_number }}
           files: app/build/outputs/apk/debug/app-debug.apk
           
