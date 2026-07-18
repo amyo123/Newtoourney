@@ -56,11 +56,19 @@ fun TournamentDetailScreen(
                 Text("Game: ${tournament!!.game}", style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { onNavigateToStream(tournament!!.id, true) }, modifier = Modifier.fillMaxWidth()) {
-                    Text("Start Live Stream (Host)")
+                    Text("Start Live Stream (Host Camera)")
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(onClick = { onNavigateToStream(tournament!!.id + "_screen", true) }, modifier = Modifier.fillMaxWidth()) {
+                    Text("Start Live Stream (Host Screen)")
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(onClick = { onNavigateToStream(tournament!!.id, false) }, modifier = Modifier.fillMaxWidth()) {
-                    Text("Watch Live Stream (Audience)")
+                    Text("Watch Live Stream (Camera)")
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(onClick = { onNavigateToStream(tournament!!.id + "_screen", false) }, modifier = Modifier.fillMaxWidth()) {
+                    Text("Watch Live Stream (Screen)")
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(onClick = { onNavigateToChat(tournament!!.id) }, modifier = Modifier.fillMaxWidth()) {

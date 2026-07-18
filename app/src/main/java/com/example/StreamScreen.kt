@@ -15,6 +15,10 @@ import io.agora.rtc2.IRtcEngineEventHandler
 import io.agora.rtc2.RtcEngine
 import io.agora.rtc2.RtcEngineConfig
 import io.agora.rtc2.video.VideoCanvas
+import io.agora.rtc2.ScreenCaptureParameters
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -24,6 +28,9 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
     var error by remember { mutableStateOf<String?>(null) }
     var localSurfaceView by remember { mutableStateOf<SurfaceView?>(null) }
     var remoteSurfaceView by remember { mutableStateOf<SurfaceView?>(null) }
+    val coroutineScope = rememberCoroutineScope()
+    
+    val isScreenShare = channelName.endsWith("_screen")
 
     DisposableEffect(channelName) {
         val agoraAppId = "7f5b5c318ba440bcbbe0cb7246388b4c"
@@ -37,8 +44,25 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
                 config.mEventHandler = object : IRtcEngineEventHandler() {
                     override fun onUserJoined(uid: Int, elapsed: Int) {
                         super.onUserJoined(uid, elapsed)
-                        if (!isBroadcaster && remoteSurfaceView == null) {
-                            // In a real app we'd dispatch to main thread, but surface view creation should ideally be on main
+                        if (!isBroadcaster) {
+                            coroutineScope.launch {
+                                withContext(Dispatchers.Main) {
+                                    val surfaceView = SurfaceView(context)
+                                    surfaceView.setZOrderMediaOverlay(true)
+                                    rtcEngine?.setupRemoteVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, uid))
+                                    remoteSurfaceView = surfaceView
+                                }
+                            }
+                        }
+                    }
+                    override fun onUserOffline(uid: Int, reason: Int) {
+                        super.onUserOffline(uid, reason)
+                        if (!isBroadcaster) {
+                            coroutineScope.launch {
+                                withContext(Dispatchers.Main) {
+                                    remoteSurfaceView = null
+                                }
+                            }
                         }
                     }
                 }
@@ -49,10 +73,17 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
                 engine.enableVideo()
                 
                 if (isBroadcaster) {
-                    val surfaceView = SurfaceView(context)
-                    engine.setupLocalVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, 0))
-                    engine.startPreview()
-                    localSurfaceView = surfaceView
+                    if (isScreenShare) {
+                        val parameters = ScreenCaptureParameters()
+                        parameters.captureVideo = true
+                        parameters.captureAudio = true
+                        engine.startScreenCapture(parameters)
+                    } else {
+                        val surfaceView = SurfaceView(context)
+                        engine.setupLocalVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, 0))
+                        engine.startPreview()
+                        localSurfaceView = surfaceView
+                    }
                 }
                 
                 engine.joinChannel(null, channelName, "Extra Optional Data", 0)
@@ -64,6 +95,9 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
         }
         
         onDispose {
+            if (isBroadcaster && isScreenShare) {
+                rtcEngine?.stopScreenCapture()
+            }
             rtcEngine?.leaveChannel()
             rtcEngine?.stopPreview()
             RtcEngine.destroy()
@@ -73,7 +107,7 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Live Stream") },
+                title = { Text(if (isScreenShare) "Live Screen Share" else "Live Stream") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -89,13 +123,20 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.align(Alignment.Center)
                 )
-            } else if (localSurfaceView != null) {
+            } else if (isBroadcaster && !isScreenShare && localSurfaceView != null) {
                 AndroidView(
                     factory = { localSurfaceView!! },
                     modifier = Modifier.fillMaxSize()
                 )
+            } else if (isBroadcaster && isScreenShare) {
+                Text("Screen sharing in progress...", modifier = Modifier.align(Alignment.Center))
+            } else if (!isBroadcaster && remoteSurfaceView != null) {
+                AndroidView(
+                    factory = { remoteSurfaceView!! },
+                    modifier = Modifier.fillMaxSize()
+                )
             } else {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                Text("Waiting for stream...", modifier = Modifier.align(Alignment.Center))
             }
         }
     }
