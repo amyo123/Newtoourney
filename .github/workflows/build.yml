@@ -1,8 +1,10 @@
 name: Build and Release Android APK
 
 on:
-  release:
-    types: [published] # Triggers when you manually publish a release on the website
+  workflow_dispatch: # This adds the "Run workflow" button on the website
+  push:
+    branches:
+      - main # This automatically builds when you edit code on the main branch
 
 jobs:
   build-and-release:
@@ -28,8 +30,10 @@ jobs:
       - name: Build Debug APK
         run: gradle assembleDebug
 
-      - name: Upload APK to Release
+      - name: Auto-Create Release and Upload APK
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: build-${{ github.run_number }} # Automatically creates a unique tag like "build-4"
+          name: Auto Build ${{ github.run_number }} # Automatically names the release
           files: app/build/outputs/apk/debug/app-debug.apk
           
