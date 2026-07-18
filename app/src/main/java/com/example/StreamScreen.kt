@@ -1,5 +1,10 @@
 package com.example
 
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import android.view.SurfaceView
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -19,6 +24,7 @@ import io.agora.rtc2.ScreenCaptureParameters
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import com.google.firebase.firestore.FirebaseFirestore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,8 +37,31 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
     val coroutineScope = rememberCoroutineScope()
     
     val isScreenShare = channelName.endsWith("_screen")
+    
+    var permissionsGranted by remember { mutableStateOf(false) }
 
-    DisposableEffect(channelName) {
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        permissionsGranted = permissions.values.all { it }
+    }
+
+    LaunchedEffect(Unit) {
+        val requiredPermissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
+        val hasPermissions = requiredPermissions.all {
+            ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+        }
+        if (hasPermissions) {
+            permissionsGranted = true
+        } else {
+            permissionLauncher.launch(requiredPermissions)
+        }
+    }
+
+    DisposableEffect(channelName, permissionsGranted) {
+        if (!permissionsGranted) {
+            return@DisposableEffect onDispose {}
+        }
         val agoraAppId = "7f5b5c318ba440bcbbe0cb7246388b4c"
         if (agoraAppId.isEmpty()) {
             error = "Agora App ID is missing."
@@ -72,6 +101,8 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
                 engine.setClientRole(if (isBroadcaster) Constants.CLIENT_ROLE_BROADCASTER else Constants.CLIENT_ROLE_AUDIENCE)
                 engine.enableVideo()
                 
+                val actualChannelName = channelName.removeSuffix("_screen")
+                
                 if (isBroadcaster) {
                     if (isScreenShare) {
                         val parameters = ScreenCaptureParameters()
@@ -80,13 +111,15 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
                         engine.startScreenCapture(parameters)
                     } else {
                         val surfaceView = SurfaceView(context)
+                        surfaceView.setZOrderMediaOverlay(true)
                         engine.setupLocalVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, 0))
                         engine.startPreview()
                         localSurfaceView = surfaceView
                     }
+                    FirebaseFirestore.getInstance().collection("tournaments").document(actualChannelName).update("status", "Live")
                 }
                 
-                engine.joinChannel(null, channelName, "Extra Optional Data", 0)
+                engine.joinChannel(null, actualChannelName, "Extra Optional Data", 0)
                 
                 rtcEngine = engine
             } catch (e: Exception) {
@@ -95,6 +128,10 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
         }
         
         onDispose {
+            if (isBroadcaster) {
+                val actualChannelName = channelName.removeSuffix("_screen")
+                FirebaseFirestore.getInstance().collection("tournaments").document(actualChannelName).update("status", "Offline")
+            }
             if (isBroadcaster && isScreenShare) {
                 rtcEngine?.stopScreenCapture()
             }
@@ -135,6 +172,8 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
                     factory = { remoteSurfaceView!! },
                     modifier = Modifier.fillMaxSize()
                 )
+            } else if (!permissionsGranted) {
+                Text("Waiting for permissions...", modifier = Modifier.align(Alignment.Center))
             } else {
                 Text("Waiting for stream...", modifier = Modifier.align(Alignment.Center))
             }

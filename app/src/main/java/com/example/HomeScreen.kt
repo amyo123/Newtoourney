@@ -59,6 +59,10 @@ fun HomeScreen(
             TopAppBar(
                 title = { Text("Tournaments") },
                 actions = {
+                    val context = androidx.compose.ui.platform.LocalContext.current
+                    TextButton(onClick = { FileLogger.dumpLogcat(context) }) {
+                        Text("Dump Logs")
+                    }
                     TextButton(onClick = { throw RuntimeException("Manual Test Crash triggered by user!") }) {
                         Text("Test Crash", color = MaterialTheme.colorScheme.error)
                     }

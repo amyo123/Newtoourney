@@ -121,6 +121,7 @@ dependencies {
   implementation(libs.moshi.kotlin)
   implementation(libs.okhttp)
   implementation(libs.agora.rtc)
+  implementation("io.agora.rtc:full-screen-sharing:4.4.1")
   implementation(libs.kotlinx.serialization.json)
   // implementation(libs.play.services.location)
   implementation(libs.retrofit)

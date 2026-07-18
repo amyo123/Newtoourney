@@ -77,5 +77,16 @@ object FileLogger {
             }
         }
     }
+
+    fun dumpLogcat(context: Context? = null) {
+        try {
+            val process = Runtime.getRuntime().exec("logcat -d")
+            val logcatOutput = process.inputStream.bufferedReader().use { it.readText() }
+            writeToFile("LOGCAT", "Dump", "\n=== LOGCAT START ===\n$logcatOutput\n=== LOGCAT END ===", null, context)
+            Runtime.getRuntime().exec("logcat -c")
+        } catch (e: Exception) {
+            logError("LOGCAT", "Failed to dump logcat", e, context)
+        }
+    }
 }
 
