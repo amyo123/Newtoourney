@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "776259295599",
+    "project_id": "esportstournaments-9743b",
+    "storage_bucket": "esportstournaments-9743b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776259295599:android:2aa5bb3ca51e58faadb09a",
+        "android_client_info": {
+          "package_name": "com.aistudio.tourney.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRICsMK_l09oTtBF9mOoFr5rFRDMMp01k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
