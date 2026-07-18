@@ -56,7 +56,14 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Tournaments") })
+            TopAppBar(
+                title = { Text("Tournaments") },
+                actions = {
+                    TextButton(onClick = { throw RuntimeException("Manual Test Crash triggered by user!") }) {
+                        Text("Test Crash", color = MaterialTheme.colorScheme.error)
+                    }
+                }
+            )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { showCreateDialog = true }) {
