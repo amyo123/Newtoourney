@@ -24,6 +24,10 @@ android {
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     
     buildConfigField("String", "AGORA_APP_ID", "\"7f5b5c318ba440bcbbe0cb7246388b4c\"")
+
+    ndk {
+      abiFilters.add("arm64-v8a")
+    }
   }
 
   signingConfigs {

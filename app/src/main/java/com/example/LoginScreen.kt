@@ -82,6 +82,10 @@ fun LoginScreen(
 
         Button(
             onClick = {
+                if (email.isBlank() || password.isBlank()) {
+                    error = "Email and password cannot be empty"
+                    return@Button
+                }
                 isLoading = true
                 error = null
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
@@ -102,6 +106,10 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(8.dp))
         TextButton(
             onClick = {
+                if (email.isBlank() || password.isBlank()) {
+                    error = "Email and password cannot be empty"
+                    return@TextButton
+                }
                 isLoading = true
                 error = null
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
@@ -118,6 +126,26 @@ fun LoginScreen(
             enabled = !isLoading
         ) {
             Text("Sign Up")
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        TextButton(
+            onClick = {
+                isLoading = true
+                error = null
+                FirebaseAuth.getInstance().signInAnonymously()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            onLoginSuccess()
+                        } else {
+                            error = task.exception?.message ?: "Guest login failed (Is Anonymous Auth enabled in Firebase?)"
+                            isLoading = false
+                        }
+                    }
+            },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
+        ) {
+            Text("Continue as Guest")
         }
     }
 }
