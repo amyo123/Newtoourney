@@ -68,62 +68,124 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
         if (agoraAppId.isEmpty()) {
             error = "Agora App ID is missing."
         } else {
-            try {
-                val config = RtcEngineConfig()
-                config.mContext = context
-                config.mAppId = agoraAppId
-                config.mEventHandler = object : IRtcEngineEventHandler() {
-                    override fun onUserJoined(uid: Int, elapsed: Int) {
-                        super.onUserJoined(uid, elapsed)
-                        if (!isBroadcaster) {
-                            remoteUid = uid
+            val uid = (1..100000).random()
+            val actualChannelName = channelName.removeSuffix("_screen")
+            val roleStr = if (isBroadcaster) "publisher" else "subscriber"
+            
+            coroutineScope.launch(Dispatchers.IO) {
+                try {
+                    val url = java.net.URL("https://agora-token-server-phi-pearl.vercel.app/api/token")
+                    val conn = url.openConnection() as java.net.HttpURLConnection
+                    conn.requestMethod = "POST"
+                    conn.setRequestProperty("Content-Type", "application/json")
+                    conn.doOutput = true
+                    
+                    val jsonBody = """
+                        {
+                            "channel": "$actualChannelName",
+                            "uid": $uid,
+                            "role": "$roleStr"
+                        }
+                    """.trimIndent()
+                    
+                    conn.outputStream.use { os ->
+                        val input = jsonBody.toByteArray(Charsets.UTF_8)
+                        os.write(input, 0, input.size)
+                    }
+                    
+                    var fetchedToken: String? = null
+                    if (conn.responseCode == java.net.HttpURLConnection.HTTP_OK) {
+                        val response = conn.inputStream.bufferedReader().readText()
+                        val tokenRegex = """"token"\s*:\s*"([^"]+)"""".toRegex()
+                        fetchedToken = tokenRegex.find(response)?.groupValues?.get(1)
+                    }
+
+                    withContext(Dispatchers.Main) {
+                        if (fetchedToken == null) {
+                            error = "Failed to fetch Agora token."
+                            return@withContext
+                        }
+
+                        try {
+                            val config = RtcEngineConfig()
+                            config.mContext = context
+                            config.mAppId = agoraAppId
+                            config.mEventHandler = object : IRtcEngineEventHandler() {
+                                override fun onJoinChannelSuccess(channel: String?, uid: Int, elapsed: Int) {
+                                    super.onJoinChannelSuccess(channel, uid, elapsed)
+                                    coroutineScope.launch(Dispatchers.Main) {
+                                        FileLogger.logInfo("Agora", "Joined channel: $channel with uid: $uid", context)
+                                    }
+                                }
+                                override fun onUserJoined(uid: Int, elapsed: Int) {
+                                    super.onUserJoined(uid, elapsed)
+                                    coroutineScope.launch(Dispatchers.Main) {
+                                        FileLogger.logInfo("Agora", "User joined: $uid", context)
+                                        if (!isBroadcaster) {
+                                            remoteUid = uid
+                                        }
+                                    }
+                                }
+                                override fun onUserOffline(uid: Int, reason: Int) {
+                                    super.onUserOffline(uid, reason)
+                                    coroutineScope.launch(Dispatchers.Main) {
+                                        FileLogger.logInfo("Agora", "User offline: $uid, reason: $reason", context)
+                                        if (!isBroadcaster && remoteUid == uid) {
+                                            remoteUid = null
+                                        }
+                                    }
+                                }
+                                override fun onError(err: Int) {
+                                    super.onError(err)
+                                    coroutineScope.launch(Dispatchers.Main) {
+                                        error = "Agora Error code: $err"
+                                        FileLogger.logError("Agora", "Agora Error code: $err", null, context)
+                                    }
+                                }
+                            }
+                            
+                            val engine = RtcEngine.create(config)
+                            engine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING)
+                            engine.setClientRole(if (isBroadcaster) Constants.CLIENT_ROLE_BROADCASTER else Constants.CLIENT_ROLE_AUDIENCE)
+                            engine.enableVideo()
+                            
+                            if (isBroadcaster) {
+                                if (isScreenShare) {
+                                    val parameters = ScreenCaptureParameters()
+                                    parameters.captureVideo = true
+                                    parameters.captureAudio = true
+                                    engine.startScreenCapture(parameters)
+                                } else {
+                                    val surfaceView = SurfaceView(context)
+                                    surfaceView.setZOrderMediaOverlay(true)
+                                    engine.setupLocalVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, 0))
+                                    engine.startPreview()
+                                    localSurfaceView = surfaceView
+                                }
+                                FirebaseFirestore.getInstance().collection("tournaments").document(actualChannelName).update("status", "Live")
+                            }
+                            
+                            val options = io.agora.rtc2.ChannelMediaOptions()
+                            options.clientRoleType = if (isBroadcaster) Constants.CLIENT_ROLE_BROADCASTER else Constants.CLIENT_ROLE_AUDIENCE
+                            options.publishCameraTrack = isBroadcaster && !isScreenShare
+                            options.publishMicrophoneTrack = isBroadcaster
+                            options.publishScreenCaptureVideo = isBroadcaster && isScreenShare
+                            options.publishScreenCaptureAudio = isBroadcaster && isScreenShare
+                            options.autoSubscribeAudio = true
+                            options.autoSubscribeVideo = true
+                            
+                            engine.joinChannel(fetchedToken, actualChannelName, uid, options)
+                            
+                            rtcEngine = engine
+                        } catch (e: Exception) {
+                            error = "Failed to init Agora: ${e.message}"
                         }
                     }
-                    override fun onUserOffline(uid: Int, reason: Int) {
-                        super.onUserOffline(uid, reason)
-                        if (!isBroadcaster && remoteUid == uid) {
-                            remoteUid = null
-                        }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        error = "Token server error: ${e.message}"
                     }
                 }
-                
-                val engine = RtcEngine.create(config)
-                engine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING)
-                engine.setClientRole(if (isBroadcaster) Constants.CLIENT_ROLE_BROADCASTER else Constants.CLIENT_ROLE_AUDIENCE)
-                engine.enableVideo()
-                
-                val actualChannelName = channelName.removeSuffix("_screen")
-                
-                if (isBroadcaster) {
-                    if (isScreenShare) {
-                        val parameters = ScreenCaptureParameters()
-                        parameters.captureVideo = true
-                        parameters.captureAudio = true
-                        engine.startScreenCapture(parameters)
-                    } else {
-                        val surfaceView = SurfaceView(context)
-                        surfaceView.setZOrderMediaOverlay(true)
-                        engine.setupLocalVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, 0))
-                        engine.startPreview()
-                        localSurfaceView = surfaceView
-                    }
-                    FirebaseFirestore.getInstance().collection("tournaments").document(actualChannelName).update("status", "Live")
-                }
-                
-                val options = io.agora.rtc2.ChannelMediaOptions()
-                options.clientRoleType = if (isBroadcaster) Constants.CLIENT_ROLE_BROADCASTER else Constants.CLIENT_ROLE_AUDIENCE
-                options.publishCameraTrack = isBroadcaster && !isScreenShare
-                options.publishMicrophoneTrack = isBroadcaster
-                options.publishScreenCaptureVideo = isBroadcaster && isScreenShare
-                options.publishScreenCaptureAudio = isBroadcaster && isScreenShare
-                options.autoSubscribeAudio = true
-                options.autoSubscribeVideo = true
-                
-                engine.joinChannel(null, actualChannelName, 0, options)
-                
-                rtcEngine = engine
-            } catch (e: Exception) {
-                error = "Failed to init Agora: ${e.message}"
             }
         }
         

@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @com.google.firebase.firestore.IgnoreExtraProperties
 data class Tournament(
@@ -32,8 +33,10 @@ fun HomeScreen(
     var error by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(true) }
     var showCreateDialog by remember { mutableStateOf(false) }
+    var isUploadingLogs by remember { mutableStateOf(false) }
     
     val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     fun loadTournaments() {
         isLoading = true
@@ -51,18 +54,97 @@ fun HomeScreen(
         }
     }
 
+    fun uploadLogs(context: android.content.Context) {
+        if (isUploadingLogs) return
+        isUploadingLogs = true
+        coroutineScope.launch {
+            snackbarHostState.showSnackbar("Dumping logcat and uploading logs...", duration = SnackbarDuration.Short)
+            withContext(kotlinx.coroutines.Dispatchers.IO) {
+                FileLogger.dumpLogcat(context)
+                val logFile = FileLogger.getLogFile(context)
+                
+                if (logFile == null || !logFile.exists()) {
+                    withContext(kotlinx.coroutines.Dispatchers.Main) {
+                        isUploadingLogs = false
+                        snackbarHostState.showSnackbar("No log file found.")
+                    }
+                    return@withContext
+                }
+
+                try {
+                    val boundary = "Boundary-" + System.currentTimeMillis()
+                    val url = java.net.URL("https://tmpfiles.org/api/v1/upload")
+                    val connection = url.openConnection() as java.net.HttpURLConnection
+                    connection.requestMethod = "POST"
+                    connection.doOutput = true
+                    connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=$boundary")
+                    
+                    connection.outputStream.use { os ->
+                        val writer = java.io.PrintWriter(java.io.OutputStreamWriter(os, "UTF-8"), true)
+                        writer.append("--$boundary\r\n")
+                        writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"${logFile.name}\"\r\n")
+                        writer.append("Content-Type: text/plain\r\n\r\n")
+                        writer.flush()
+                        
+                        logFile.inputStream().use { input ->
+                            input.copyTo(os)
+                        }
+                        os.flush()
+                        
+                        writer.append("\r\n")
+                        writer.append("--$boundary--\r\n")
+                        writer.flush()
+                    }
+                    
+                    val responseCode = connection.responseCode
+                    if (responseCode == 200) {
+                        val response = connection.inputStream.bufferedReader().readText()
+                        val urlRegex = """"url"\s*:\s*"([^"]+)"""".toRegex()
+                        val match = urlRegex.find(response)
+                        if (match != null) {
+                            withContext(kotlinx.coroutines.Dispatchers.Main) {
+                                isUploadingLogs = false
+                                snackbarHostState.showSnackbar(
+                                    message = "Uploaded: ${match.groupValues[1]}",
+                                    duration = SnackbarDuration.Indefinite,
+                                    actionLabel = "Dismiss"
+                                )
+                            }
+                        } else {
+                            withContext(kotlinx.coroutines.Dispatchers.Main) {
+                                isUploadingLogs = false
+                                snackbarHostState.showSnackbar("Upload succeeded but URL not found.")
+                            }
+                        }
+                    } else {
+                        withContext(kotlinx.coroutines.Dispatchers.Main) {
+                            isUploadingLogs = false
+                            snackbarHostState.showSnackbar("Upload failed: HTTP \$responseCode")
+                        }
+                    }
+                } catch (e: Exception) {
+                    withContext(kotlinx.coroutines.Dispatchers.Main) {
+                        isUploadingLogs = false
+                        snackbarHostState.showSnackbar("Upload error: \${e.message}")
+                    }
+                }
+            }
+        }
+    }
+
     LaunchedEffect(Unit) {
         loadTournaments()
     }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { Text("Tournaments") },
                 actions = {
                     val context = androidx.compose.ui.platform.LocalContext.current
-                    TextButton(onClick = { FileLogger.dumpLogcat(context) }) {
-                        Text("Dump Logs")
+                    TextButton(onClick = { uploadLogs(context) }, enabled = !isUploadingLogs) {
+                        Text(if (isUploadingLogs) "Uploading..." else "Dump Logs")
                     }
                     TextButton(onClick = { throw RuntimeException("Manual Test Crash triggered by user!") }) {
                         Text("Test Crash", color = MaterialTheme.colorScheme.error)

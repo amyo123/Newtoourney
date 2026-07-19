@@ -17,6 +17,7 @@ object FileLogger {
     private const val TAG = "FileLogger"
     private var isInitialized = false
     private const val LOG_FILE_NAME = "tournaments_app_logs.txt"
+    private const val MAX_FILE_SIZE = 5 * 1024 * 1024L // 5 MB
 
     fun init(context: Context) {
         if (isInitialized) return
@@ -36,9 +37,35 @@ object FileLogger {
         writeToFile("INFO", tag, message, null, context)
     }
 
+    fun logWarning(tag: String, message: String, throwable: Throwable? = null, context: Context? = null) {
+        Log.w(tag, message, throwable)
+        writeToFile("WARNING", tag, message, throwable, context)
+    }
+
     fun logError(tag: String, message: String, throwable: Throwable? = null, context: Context? = null) {
         Log.e(tag, message, throwable)
         writeToFile("ERROR", tag, message, throwable, context)
+    }
+
+    private fun trimFileIfNeeded(file: File) {
+        if (file.exists() && file.length() > MAX_FILE_SIZE) {
+            try {
+                // Keep the last 2.5MB
+                val keepSize = (2.5 * 1024 * 1024).toLong()
+                val raf = java.io.RandomAccessFile(file, "rw")
+                val length = raf.length()
+                raf.seek(length - keepSize)
+                val bytes = ByteArray(keepSize.toInt())
+                raf.readFully(bytes)
+                raf.close()
+                
+                val fos = FileOutputStream(file, false)
+                fos.write(bytes)
+                fos.close()
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to trim log file", e)
+            }
+        }
     }
 
     private fun writeToFile(level: String, tag: String, message: String, throwable: Throwable?, context: Context?) {
@@ -59,6 +86,7 @@ object FileLogger {
                 downloadsDir.mkdirs()
             }
             val file = File(downloadsDir, LOG_FILE_NAME)
+            trimFileIfNeeded(file)
             FileOutputStream(file, true).use { fos ->
                 fos.write(sb.toString().toByteArray())
             }
@@ -68,14 +96,26 @@ object FileLogger {
                 try {
                     val fallbackDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
                     val file = File(fallbackDir, LOG_FILE_NAME)
-                    FileOutputStream(file, true).use { fos ->
-                        fos.write(sb.toString().toByteArray())
+                    if (file != null) {
+                        trimFileIfNeeded(file)
+                        FileOutputStream(file, true).use { fos ->
+                            fos.write(sb.toString().toByteArray())
+                        }
                     }
                 } catch (ex: Exception) {
                     Log.e(TAG, "Failed fallback write", ex)
                 }
             }
         }
+    }
+
+    fun getLogFile(context: Context): File? {
+        val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        var file = File(downloadsDir, LOG_FILE_NAME)
+        if (file.exists()) return file
+        val fallbackDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+        file = File(fallbackDir, LOG_FILE_NAME)
+        return if (file.exists()) file else null
     }
 
     fun dumpLogcat(context: Context? = null) {
