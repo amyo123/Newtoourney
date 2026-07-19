@@ -24,6 +24,7 @@ android {
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     
     buildConfigField("String", "AGORA_APP_ID", "\"7f5b5c318ba440bcbbe0cb7246388b4c\"")
+    buildConfigField("String", "CLOUDINARY_URL", "\"${System.getenv("CLOUDINARY_URL") ?: ""}\"")
 
     ndk {
       abiFilters.add("arm64-v8a")
@@ -101,7 +102,7 @@ dependencies {
   implementation(libs.androidx.navigation.compose)
   implementation(libs.androidx.room.ktx)
   implementation(libs.androidx.room.runtime)
-  // implementation(libs.coil.compose)
+  implementation(libs.coil.compose)
   implementation(libs.converter.moshi)
   // implementation(libs.firebase.ai)
   // Uncomment to use Firestore:
@@ -125,6 +126,8 @@ dependencies {
   implementation(libs.kotlinx.serialization.json)
   // implementation(libs.play.services.location)
   implementation(libs.retrofit)
+  implementation(libs.cloudinary.android)
+  implementation("com.squareup.okhttp3:okhttp:4.12.0")
   testImplementation(libs.androidx.compose.ui.test.junit4)
   testImplementation(libs.androidx.core)
   testImplementation(libs.androidx.junit)

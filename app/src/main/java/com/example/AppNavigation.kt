@@ -26,7 +26,8 @@ fun AppNavigation(
         }
         composable<HomeRoute> {
             HomeScreen(
-                onNavigateToTournament = { id -> navController.navigate(TournamentDetailRoute(id)) }
+                onNavigateToTournament = { id -> navController.navigate(TournamentDetailRoute(id)) },
+                onNavigateToMockup = { navController.navigate(DesignMockupRoute) }
             )
         }
         composable<TournamentDetailRoute> { backStackEntry ->
@@ -50,6 +51,11 @@ fun AppNavigation(
             val route = backStackEntry.toRoute<ChatRoute>()
             ChatScreen(
                 tournamentId = route.tournamentId,
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable<DesignMockupRoute> {
+            DesignMockupScreen(
                 onBack = { navController.popBackStack() }
             )
         }

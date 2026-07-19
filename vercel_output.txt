@@ -1,0 +1,15 @@
+Vercel CLI 56.3.2 (Node.js 22.23.1)
+Retrieving project…
+Deploying projects-6671s-projects/applet
+Uploading [--------------------] (0.0B/202.7MB)
+Uploading [=====---------------] (50.7MB/202.7MB)
+Uploading [==========----------] (101.4MB/202.7MB)
+Uploading [===============-----] (152.1MB/202.7MB)
+Error: File size limit exceeded (100 MB)
+Error: An unexpected error occurred!
+AbortError: This operation was aborted
+    at node:internal/deps/undici/undici:15141:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async fetchApi (file:///app/applet/node_modules/vercel/dist/chunks/chunk-HZAINEXG.js:46209:21)
+    at async uploadList.<computed>.retries (file:///app/applet/node_modules/vercel/dist/chunks/chunk-HZAINEXG.js:47256:27)
+Uploading [====================] (202.7MB/202.7MB)

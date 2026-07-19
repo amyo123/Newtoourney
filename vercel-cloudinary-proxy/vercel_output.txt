@@ -1,0 +1,31 @@
+Vercel CLI 56.3.2 (Node.js 22.23.1)
+Loading teams…
+
+  Directory       /app/applet/vercel-cloudinary-proxy
+
+Searching for existing projects…
+
+  No framework detected. Default Project Settings:
+  Build Command: `npm run vercel-build` or `npm run build`
+  Development Command: None
+  Install Command: `yarn install`, `pnpm install`, `npm install`, or `bun install`
+  Output Directory: `public` if it exists, or `.`
+
+✓ Created         projects-6671s-projects/vercel-cloudinary-proxy
+Deploying projects-6671s-projects/vercel-cloudinary-proxy
+Uploading [--------------------] (0.0B/585B)
+Uploading [====================] (585.0B/585B)
+  Inspect         https://vercel.com/projects-6671s-projects/vercel-cloudinary-proxy/BzMFZ5FCwKSXze3ufUHcDL4wTmVu
+  Production      https://vercel-cloudinary-proxy-jy1tgs3j5-projects-6671s-projects.vercel.app
+https://vercel-cloudinary-proxy-jy1tgs3j5-projects-6671s-projects.vercel.appBuilding…
+Building…
+Running build in Washington, D.C., USA (East) – iad1
+Build machine configuration: 2 cores, 8 GB
+Retrieving list of deployment files...
+Previous build caches not available.
+Downloading 4 deployment files...
+[2K[1A[2K[G  Production      https://vercel-cloudinary-proxy-jy1tgs3j5-projects-6671s-projects.vercel.app
+Completing…
+▲ Aliased         https://vercel-cloudinary-proxy.vercel.app
+
+✓ Ready in 9s

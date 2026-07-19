@@ -9,12 +9,20 @@ import android.view.SurfaceView
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import io.agora.rtc2.Constants
 import io.agora.rtc2.IRtcEngineEventHandler
 import io.agora.rtc2.RtcEngine
@@ -26,7 +34,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.google.firebase.firestore.FirebaseFirestore
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit) {
@@ -213,49 +220,76 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
         }
     }
 
+    val darkBackground = Color(0xFF0F0C29)
+    val accentNeon = Color(0xFF00FF87)
+    val cardBg = Color(0xFF1A1A2E)
+
     Scaffold(
+        containerColor = darkBackground,
         topBar = {
             TopAppBar(
-                title = { Text(if (isScreenShare) "Live Screen Share" else "Live Stream") },
+                title = { Text(if (isScreenShare) "Live Screen Share" else "Live Stream", color = Color.White, fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = accentNeon)
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
         }
     ) { padding ->
-        Box(modifier = Modifier.padding(padding).fillMaxSize()) {
-            if (error != null) {
+        Column(modifier = Modifier.padding(padding).fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f)
+                    .background(cardBg)
+            ) {
+                if (error != null) {
+                    Text(
+                        text = error!!,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                } else if (isBroadcaster && !isScreenShare && localSurfaceView != null) {
+                    AndroidView(
+                        factory = { localSurfaceView!! },
+                        modifier = Modifier.fillMaxSize()
+                    )
+                } else if (isBroadcaster && isScreenShare) {
+                    Text("Screen sharing in progress...", color = accentNeon, modifier = Modifier.align(Alignment.Center))
+                } else if (!isBroadcaster && remoteUid != null) {
+                    AndroidView(
+                        factory = { ctx ->
+                            SurfaceView(ctx).apply {
+                                setZOrderMediaOverlay(true)
+                                rtcEngine?.setupRemoteVideo(VideoCanvas(this, VideoCanvas.RENDER_MODE_HIDDEN, remoteUid!!))
+                            }
+                        },
+                        update = { view ->
+                            rtcEngine?.setupRemoteVideo(VideoCanvas(view, VideoCanvas.RENDER_MODE_HIDDEN, remoteUid!!))
+                        },
+                        modifier = Modifier.fillMaxSize()
+                    )
+                } else if (!permissionsGranted) {
+                    Text("Waiting for permissions...", color = Color.Gray, modifier = Modifier.align(Alignment.Center))
+                } else {
+                    Text("Waiting for stream...", color = Color.Gray, modifier = Modifier.align(Alignment.Center))
+                }
+            }
+            
+            // Chat Section Area
+            Column(modifier = Modifier.fillMaxSize().background(darkBackground)) {
                 Text(
-                    text = error!!,
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.align(Alignment.Center)
+                    "Live Chat",
+                    color = Color.Gray,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(16.dp)
                 )
-            } else if (isBroadcaster && !isScreenShare && localSurfaceView != null) {
-                AndroidView(
-                    factory = { localSurfaceView!! },
-                    modifier = Modifier.fillMaxSize()
-                )
-            } else if (isBroadcaster && isScreenShare) {
-                Text("Screen sharing in progress...", modifier = Modifier.align(Alignment.Center))
-            } else if (!isBroadcaster && remoteUid != null) {
-                AndroidView(
-                    factory = { ctx ->
-                        SurfaceView(ctx).apply {
-                            setZOrderMediaOverlay(true)
-                            rtcEngine?.setupRemoteVideo(VideoCanvas(this, VideoCanvas.RENDER_MODE_HIDDEN, remoteUid!!))
-                        }
-                    },
-                    update = { view ->
-                        rtcEngine?.setupRemoteVideo(VideoCanvas(view, VideoCanvas.RENDER_MODE_HIDDEN, remoteUid!!))
-                    },
-                    modifier = Modifier.fillMaxSize()
-                )
-            } else if (!permissionsGranted) {
-                Text("Waiting for permissions...", modifier = Modifier.align(Alignment.Center))
-            } else {
-                Text("Waiting for stream...", modifier = Modifier.align(Alignment.Center))
+                
+                Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                    ChatComponent(tournamentId = channelName.removeSuffix("_screen"))
+                }
             }
         }
     }

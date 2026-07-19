@@ -16,3 +16,6 @@ data class StreamRoute(val channelName: String, val isBroadcaster: Boolean)
 
 @Serializable
 data class ChatRoute(val tournamentId: String)
+
+@Serializable
+object DesignMockupRoute

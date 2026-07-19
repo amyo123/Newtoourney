@@ -1,0 +1,234 @@
+[2026-07-19 10:26:03] [INFO] [APP_LIFECYCLE]: Logger initialized
+[2026-07-19 10:31:24] [INFO] [APP_LIFECYCLE]: Logger initialized
+[2026-07-19 10:44:43] [LOGCAT] [Dump]: 
+=== LOGCAT START ===
+--------- beginning of main
+07-19 10:26:02.403  8284  8284 I dio.tourney.app: Late-enabling -Xcheck:jni
+07-19 10:26:02.435  8284  8284 I dio.tourney.app: Using CollectorTypeCMC GC.
+07-19 10:26:02.473  8284  8284 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+07-19 10:26:03.275  8284  8284 D nativeloader: Configuring clns-9 for other apk /data/app/~~x-9xf9zByy7kbDgf1X9hGA==/com.aistudio.tourney.app-elp1hCLRPi9QSu0gpIKU5Q==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~x-9xf9zByy7kbDgf1X9hGA==/com.aistudio.tourney.app-elp1hCLRPi9QSu0gpIKU5Q==/lib/arm64:/data/app/~~x-9xf9zByy7kbDgf1X9hGA==/com.aistudio.tourney.app-elp1hCLRPi9QSu0gpIKU5Q==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/com.aistudio.tourney.app
+07-19 10:26:03.279  8284  8284 I dio.tourney.app: AssetManager2(0xb400006e2b92e4f8) locale list changing from [] to [en-US]
+07-19 10:26:03.284  8284  8284 V GraphicsEnvironment: Currently set values for:
+07-19 10:26:03.284  8284  8284 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+07-19 10:26:03.284  8284  8284 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+07-19 10:26:03.284  8284  8284 V GraphicsEnvironment: com.aistudio.tourney.app is not listed in per-application setting
+07-19 10:26:03.285  8284  8284 V GraphicsEnvironment: ANGLE allowlist from config: com.dreamgames.royalmatch com.dts.freefiremax com.dxx.firenow com.gramgames.mergedragons com.ludo.king com.mojang.minecraftpe com.my.defense com.nintendo.zaka com.os.airforce com.playrix.fishdomdd.gplay io.teslatech.callbreak jp.konami.prospia net.peakgames.toonblast
+07-19 10:26:03.285  8284  8284 V GraphicsEnvironment: com.aistudio.tourney.app is not listed in ANGLE allowlist or settings, returning default
+07-19 10:26:03.286  8284  8284 V GraphicsEnvironment: Neither updatable production driver nor prerelease driver is supported.
+07-19 10:26:03.309  8284  8284 I FirebaseApp: Device unlocked: initializing all Firebase APIs for app [DEFAULT]
+07-19 10:26:03.314  8284  8284 I FirebaseInitProvider: FirebaseApp initialization successful
+07-19 10:26:03.327  8284  8284 D WM-WrkMgrInitializer: Initializing WorkManager with default configuration.
+--------- beginning of system
+07-19 10:26:03.351  8284  8328 I DisplayManager: Choreographer implicitly registered for the refresh rate.
+07-19 10:26:03.353  8284  8284 I dio.tourney.app: AssetManager2(0xb400006e2b930438) locale list changing from [] to [en-US]
+07-19 10:26:03.361  8284  8327 E ashmem  : Pinning is deprecated since Android Q. Please use trim or other methods.
+07-19 10:26:03.367  8284  8284 I APP_LIFECYCLE: Logger initialized
+07-19 10:26:03.381  8284  8328 I EGL_emulation: Opening libGLESv1_CM_emulation.so
+07-19 10:26:03.381  8284  8328 I EGL_emulation: Opening libGLESv2_emulation.so
+07-19 10:26:03.390  8284  8328 W HWUI    : Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+07-19 10:26:03.391  8284  8328 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS
+07-19 10:26:03.396  8284  8284 D CompatChangeReporter: Compat change id reported: 377864165; UID 10221; state: ENABLED
+07-19 10:26:03.398  8284  8284 D DesktopModeFlags: Toggle override initialized to: OVERRIDE_UNSET
+07-19 10:26:03.438  8284  8284 W HWUI    : Unknown dataspace 0
+07-19 10:26:03.793  8284  8289 I dio.tourney.app: Compiler allocated 5111KB to compile void android.view.ViewRootImpl.performTraversals()
+07-19 10:26:03.993  8284  8284 I Choreographer: Skipped 30 frames!  The application may be doing too much work on its main thread.
+07-19 10:26:04.008  8284  8284 D InsetsController: hide(ime(), fromIme=false)
+07-19 10:26:04.008  8284  8284 I ImeTracker: com.aistudio.tourney.app:6a632f75: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+07-19 10:26:09.223  8284  8344 D ProfileInstaller: Installing profile for com.aistudio.tourney.app
+07-19 10:31:23.752  8680  8680 I dio.tourney.app: Late-enabling -Xcheck:jni
+07-19 10:31:23.782  8680  8680 I dio.tourney.app: Using CollectorTypeCMC GC.
+07-19 10:31:23.789  8680  8680 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+07-19 10:31:24.546  8680  8680 D nativeloader: Configuring clns-9 for other apk /data/app/~~UjtPok-3nMSW4am7_yra5g==/com.aistudio.tourney.app-knvJQSJ0xMQ2dKrafzbgtQ==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~UjtPok-3nMSW4am7_yra5g==/com.aistudio.tourney.app-knvJQSJ0xMQ2dKrafzbgtQ==/lib/arm64:/data/app/~~UjtPok-3nMSW4am7_yra5g==/com.aistudio.tourney.app-knvJQSJ0xMQ2dKrafzbgtQ==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/com.aistudio.tourney.app
+07-19 10:31:24.550  8680  8680 I dio.tourney.app: AssetManager2(0xb400006e2b92e4f8) locale list changing from [] to [en-US]
+07-19 10:31:24.554  8680  8680 V GraphicsEnvironment: Currently set values for:
+07-19 10:31:24.554  8680  8680 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+07-19 10:31:24.554  8680  8680 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+07-19 10:31:24.554  8680  8680 V GraphicsEnvironment: com.aistudio.tourney.app is not listed in per-application setting
+07-19 10:31:24.555  8680  8680 V GraphicsEnvironment: ANGLE allowlist from config: com.dreamgames.royalmatch com.dts.freefiremax com.dxx.firenow com.gramgames.mergedragons com.ludo.king com.mojang.minecraftpe com.my.defense com.nintendo.zaka com.os.airforce com.playrix.fishdomdd.gplay io.teslatech.callbreak jp.konami.prospia net.peakgames.toonblast
+07-19 10:31:24.555  8680  8680 V GraphicsEnvironment: com.aistudio.tourney.app is not listed in ANGLE allowlist or settings, returning default
+07-19 10:31:24.555  8680  8680 V GraphicsEnvironment: Neither updatable production driver nor prerelease driver is supported.
+07-19 10:31:24.576  8680  8680 I FirebaseApp: Device unlocked: initializing all Firebase APIs for app [DEFAULT]
+07-19 10:31:24.582  8680  8680 I FirebaseInitProvider: FirebaseApp initialization successful
+07-19 10:31:24.589  8680  8680 D WM-WrkMgrInitializer: Initializing WorkManager with default configuration.
+07-19 10:31:24.611  8680  8705 I DisplayManager: Choreographer implicitly registered for the refresh rate.
+07-19 10:31:24.613  8680  8680 I dio.tourney.app: AssetManager2(0xb400006e2b92cf18) locale list changing from [] to [en-US]
+07-19 10:31:24.618  8680  8704 E ashmem  : Pinning is deprecated since Android Q. Please use trim or other methods.
+07-19 10:31:24.620  8680  8680 I APP_LIFECYCLE: Logger initialized
+07-19 10:31:24.629  8680  8680 D CompatChangeReporter: Compat change id reported: 377864165; UID 10221; state: ENABLED
+07-19 10:31:24.630  8680  8705 I EGL_emulation: Opening libGLESv1_CM_emulation.so
+07-19 10:31:24.630  8680  8705 I EGL_emulation: Opening libGLESv2_emulation.so
+07-19 10:31:24.631  8680  8680 D DesktopModeFlags: Toggle override initialized to: OVERRIDE_UNSET
+07-19 10:31:24.633  8680  8705 W HWUI    : Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+07-19 10:31:24.634  8680  8705 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS
+07-19 10:31:24.656  8680  8680 W HWUI    : Unknown dataspace 0
+07-19 10:31:25.019  8680  8689 I dio.tourney.app: Compiler allocated 5111KB to compile void android.view.ViewRootImpl.performTraversals()
+07-19 10:31:25.145  8680  8680 D InsetsController: hide(ime(), fromIme=false)
+07-19 10:31:25.145  8680  8680 I ImeTracker: com.aistudio.tourney.app:ad6e30bf: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+07-19 10:31:30.133  8680  8725 D ProfileInstaller: Installing profile for com.aistudio.tourney.app
+07-19 10:42:38.558  8680  9248 W System  : Ignoring header X-Firebase-Locale because its value was null.
+07-19 10:42:38.588  8680  9248 W LocalRequestInterceptor: Error getting App Check token; using placeholder token instead. Error: com.google.firebase.FirebaseException: No AppCheckProvider installed.
+07-19 10:42:38.995  8680  9248 W System  : Ignoring header X-Firebase-Locale because its value was null.
+07-19 10:42:39.006  8680  9248 W LocalRequestInterceptor: Error getting App Check token; using placeholder token instead. Error: com.google.firebase.FirebaseException: No AppCheckProvider installed.
+07-19 10:42:39.127  8680  9248 D FirebaseAuth: Notifying id token listeners about user ( 4kTpvjNgmRdCUjFaQmkPAx3hyJS2 ).
+07-19 10:42:39.128  8680  9248 D FirebaseAuth: Notifying auth state listeners about user ( 4kTpvjNgmRdCUjFaQmkPAx3hyJS2 ).
+07-19 10:42:39.283  8680  9262 W DynamiteModule: Local module descriptor class for com.google.android.gms.providerinstaller.dynamite not found.
+07-19 10:42:39.293  8680  9262 I DynamiteModule: Considering local module com.google.android.gms.providerinstaller.dynamite:0 and remote module com.google.android.gms.providerinstaller.dynamite:0
+07-19 10:42:39.297  8680  9262 W ProviderInstaller: Failed to load providerinstaller module: No acceptable module com.google.android.gms.providerinstaller.dynamite found. Local version is 0 and remote version is 0.
+07-19 10:42:39.305  8680  9262 I dio.tourney.app: AssetManager2(0xb400006e2b941738) locale list changing from [] to [en-US]
+07-19 10:42:39.309  8680  9262 D ApplicationLoaders: Returning zygote-cached class loader: /system/framework/org.apache.http.legacy.jar
+07-19 10:42:39.309  8680  9262 D ApplicationLoaders: Returning zygote-cached class loader: /system/framework/com.android.location.provider.jar
+07-19 10:42:39.309  8680  9262 D ApplicationLoaders: Returning zygote-cached class loader: /system/framework/com.android.media.remotedisplay.jar
+07-19 10:42:39.313  8680  9262 D nativeloader: Configuring clns-10 for other apk /system_ext/framework/com.android.extensions.appfunctions.jar. target_sdk_version=37, uses_libraries=ALL, library_path=/data/app/~~u1J9jg2jPpMXbq9gkhXeQw==/com.google.android.gms-akMTe99tMjY1QHij7MaSRw==/lib/arm64:/data/app/~~u1J9jg2jPpMXbq9gkhXeQw==/com.google.android.gms-akMTe99tMjY1QHij7MaSRw==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/com.google.android.gms
+07-19 10:42:39.315  8680  9262 D ApplicationLoaders: Returning zygote-cached class loader: /system_ext/framework/androidx.window.extensions.jar
+07-19 10:42:39.315  8680  9262 D ApplicationLoaders: Returning zygote-cached class loader: /system_ext/framework/androidx.window.sidecar.jar
+07-19 10:42:39.321  8680  9262 D nativeloader: Configuring clns-11 for other apk /data/app/~~u1J9jg2jPpMXbq9gkhXeQw==/com.google.android.gms-akMTe99tMjY1QHij7MaSRw==/base.apk. target_sdk_version=37, uses_libraries=, library_path=/data/app/~~u1J9jg2jPpMXbq9gkhXeQw==/com.google.android.gms-akMTe99tMjY1QHij7MaSRw==/lib/arm64:/data/app/~~u1J9jg2jPpMXbq9gkhXeQw==/com.google.android.gms-akMTe99tMjY1QHij7MaSRw==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/com.google.android.gms
+07-19 10:42:39.342  8680  9267 I dio.tourney.app: hiddenapi: Accessing hidden method Ldalvik/system/VMStack;->getStackClass2()Ljava/lang/Class; (runtime_flags=0, domain=core-platform, api=unsupported) from Lhlow; (domain=app) using reflection: allowed
+07-19 10:42:39.350  8680  9267 I gqoj    : Unable to retrieve flag snapshot for com.google.android.gms.providerinstaller#com.aistudio.tourney.app, using defaults.
+07-19 10:42:39.359  8680  9262 D nativeloader: Load /data/app/~~u1J9jg2jPpMXbq9gkhXeQw==/com.google.android.gms-akMTe99tMjY1QHij7MaSRw==/base.apk!/lib/arm64-v8a/libconscrypt_gmscore_jni.so using class loader ns clns-11 (caller=/data/app/~~u1J9jg2jPpMXbq9gkhXeQw==/com.google.android.gms-akMTe99tMjY1QHij7MaSRw==/base.apk!classes2.dex): ok
+07-19 10:42:39.359  8680  9262 V NativeCrypto: Registering com/google/android/gms/org/conscrypt/NativeCrypto's 337 native methods...
+07-19 10:42:39.361  8680  9262 I dio.tourney.app: hiddenapi: Accessing hidden method Ljava/security/spec/ECParameterSpec;->getCurveName()Ljava/lang/String; (runtime_flags=0, domain=core-platform, api=unsupported) from Lcom/google/android/gms/org/conscrypt/Platform; (domain=app) using reflection: allowed
+07-19 10:42:39.365  8680  9262 I ProviderInstaller: Installed default security provider GmsCore_OpenSSL
+07-19 10:42:39.371  8680  9262 I dio.tourney.app: Waiting for a blocking GC ClassLinker
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: Failed to get service from broker. 
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: java.lang.SecurityException: Unknown calling package name 'com.google.android.gms'.
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at android.os.Parcel.createExceptionOrNull(Parcel.java:3340)
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at android.os.Parcel.createException(Parcel.java:3324)
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at android.os.Parcel.readException(Parcel.java:3307)
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at android.os.Parcel.readException(Parcel.java:3249)
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at bkyb.a(:com.google.android.gms@262532035@26.25.32 (260400-944114241):36)
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at bkvx.y(:com.google.android.gms@262532035@26.25.32 (260400-944114241):143)
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at bkbz.run(:com.google.android.gms@262532035@26.25.32 (260400-944114241):42)
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at android.os.Handler.handleCallback(Handler.java:995)
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at android.os.Handler.dispatchMessage(Handler.java:103)
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at ddya.mL(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at ddya.dispatchMessage(:com.google.android.gms@262532035@26.25.32 (260400-944114241):5)
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at android.os.Looper.loopOnce(Looper.java:248)
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at android.os.Looper.loop(Looper.java:338)
+07-19 10:42:39.403  8680  9266 E GoogleApiManager: 	at android.os.HandlerThread.run(HandlerThread.java:85)
+07-19 10:42:39.405  8680  9266 W GoogleApiManager: Not showing notification since connectionResult is not user-facing: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+07-19 10:42:39.406  8680  9267 W FlagStore: Unable to update local snapshot for com.google.android.gms.providerinstaller#com.aistudio.tourney.app, may result in stale flags.
+07-19 10:42:39.406  8680  9267 W FlagStore: java.util.concurrent.ExecutionException: gqou: 17: 17: API: Phenotype.API is not available on this device. Connection failed with: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at hrfe.j(:com.google.android.gms@262532035@26.25.32 (260400-944114241):21)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at hrfn.t(:com.google.android.gms@262532035@26.25.32 (260400-944114241):24)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at hrfe.get(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at hrjw.a(:com.google.android.gms@262532035@26.25.32 (260400-944114241):2)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at hrim.s(:com.google.android.gms@262532035@26.25.32 (260400-944114241):10)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at gque.d(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at gqti.run(:com.google.android.gms@262532035@26.25.32 (260400-944114241):5)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:524)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at java.util.concurrent.FutureTask.run(FutureTask.java:317)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:348)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1156)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:651)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at java.lang.Thread.run(Thread.java:1119)
+07-19 10:42:39.406  8680  9267 W FlagStore: Caused by: gqou: 17: 17: API: Phenotype.API is not available on this device. Connection failed with: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at gqow.a(:com.google.android.gms@262532035@26.25.32 (260400-944114241):13)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at hreu.d(:com.google.android.gms@262532035@26.25.32 (260400-944114241):3)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at hrew.run(:com.google.android.gms@262532035@26.25.32 (260400-944114241):139)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at hrhh.execute(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at hrfe.f(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at hrfe.m(:com.google.android.gms@262532035@26.25.32 (260400-944114241):101)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at hrfe.q(:com.google.android.gms@262532035@26.25.32 (260400-944114241):16)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at gjwt.hG(:com.google.android.gms@262532035@26.25.32 (260400-944114241):35)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at fvzb.run(:com.google.android.gms@262532035@26.25.32 (260400-944114241):12)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at hrhh.execute(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at fvzc.b(:com.google.android.gms@262532035@26.25.32 (260400-944114241):18)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at fvzr.b(:com.google.android.gms@262532035@26.25.32 (260400-944114241):34)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at fvzy.B(:com.google.android.gms@262532035@26.25.32 (260400-944114241):17)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at fvyt.run(:com.google.android.gms@262532035@26.25.32 (260400-944114241):60)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at hrhh.execute(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at fvyu.b(:com.google.android.gms@262532035@26.25.32 (260400-944114241):8)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at fvzr.b(:com.google.android.gms@262532035@26.25.32 (260400-944114241):34)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at fvzt.c(:com.google.android.gms@262532035@26.25.32 (260400-944114241):23)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at bjzg.e(:com.google.android.gms@262532035@26.25.32 (260400-944114241):9)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at bkbx.q(:com.google.android.gms@262532035@26.25.32 (260400-944114241):48)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at bkbx.d(:com.google.android.gms@262532035@26.25.32 (260400-944114241):10)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at bkbx.g(:com.google.android.gms@262532035@26.25.32 (260400-944114241):191)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at bkbx.onConnectionFailed(:com.google.android.gms@262532035@26.25.32 (260400-944114241):2)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at bkbz.run(:com.google.android.gms@262532035@26.25.32 (260400-944114241):70)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at android.os.Handler.handleCallback(Handler.java:995)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at android.os.Handler.dispatchMessage(Handler.java:103)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at ddya.mL(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at ddya.dispatchMessage(:com.google.android.gms@262532035@26.25.32 (260400-944114241):5)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at android.os.Looper.loopOnce(Looper.java:248)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at android.os.Looper.loop(Looper.java:338)
+07-19 10:42:39.406  8680  9267 W FlagStore: 	at android.os.HandlerThread.run(HandlerThread.java:85)
+07-19 10:42:39.407  8680  9267 W FlagStore: Caused by: bjxl: 17: API: Phenotype.API is not available on this device. Connection failed with: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+07-19 10:42:39.407  8680  9267 W FlagStore: 	at bkvj.a(:com.google.android.gms@262532035@26.25.32 (260400-944114241):15)
+07-19 10:42:39.407  8680  9267 W FlagStore: 	at bjzj.a(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.407  8680  9267 W FlagStore: 	at bjzg.e(:com.google.android.gms@262532035@26.25.32 (260400-944114241):5)
+07-19 10:42:39.407  8680  9267 W FlagStore: 	... 12 more
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: Failed to register com.google.android.gms.providerinstaller#com.aistudio.tourney.app
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: gqou: 17: 17: API: Phenotype.API is not available on this device. Connection failed with: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at gqow.a(:com.google.android.gms@262532035@26.25.32 (260400-944114241):13)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at hreu.d(:com.google.android.gms@262532035@26.25.32 (260400-944114241):3)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at hrew.run(:com.google.android.gms@262532035@26.25.32 (260400-944114241):139)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at hrhh.execute(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at hrfe.f(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at hrfe.m(:com.google.android.gms@262532035@26.25.32 (260400-944114241):101)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at hrfe.q(:com.google.android.gms@262532035@26.25.32 (260400-944114241):16)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at gjwt.hG(:com.google.android.gms@262532035@26.25.32 (260400-944114241):35)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at fvzb.run(:com.google.android.gms@262532035@26.25.32 (260400-944114241):12)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at hrhh.execute(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at fvzc.b(:com.google.android.gms@262532035@26.25.32 (260400-944114241):18)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at fvzr.b(:com.google.android.gms@262532035@26.25.32 (260400-944114241):34)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at fvzt.c(:com.google.android.gms@262532035@26.25.32 (260400-944114241):23)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at bjzg.e(:com.google.android.gms@262532035@26.25.32 (260400-944114241):9)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at bkbx.q(:com.google.android.gms@262532035@26.25.32 (260400-944114241):48)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at bkbx.d(:com.google.android.gms@262532035@26.25.32 (260400-944114241):10)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at bkbx.g(:com.google.android.gms@262532035@26.25.32 (260400-944114241):191)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at bkbx.onConnectionFailed(:com.google.android.gms@262532035@26.25.32 (260400-944114241):2)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at bkbz.run(:com.google.android.gms@262532035@26.25.32 (260400-944114241):70)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at android.os.Handler.handleCallback(Handler.java:995)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at android.os.Handler.dispatchMessage(Handler.java:103)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at ddya.mL(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at ddya.dispatchMessage(:com.google.android.gms@262532035@26.25.32 (260400-944114241):5)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at android.os.Looper.loopOnce(Looper.java:248)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at android.os.Looper.loop(Looper.java:338)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at android.os.HandlerThread.run(HandlerThread.java:85)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: Caused by: bjxl: 17: API: Phenotype.API is not available on this device. Connection failed with: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at bkvj.a(:com.google.android.gms@262532035@26.25.32 (260400-944114241):15)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at bjzj.a(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	at bjzg.e(:com.google.android.gms@262532035@26.25.32 (260400-944114241):5)
+07-19 10:42:39.407  8680  9265 W FlagRegistrar: 	... 12 more
+07-19 10:42:39.430  8680  9262 I dio.tourney.app: WaitForGcToComplete blocked ClassLinker on Background for 59.713ms
+07-19 10:42:39.597  8680  9274 I dio.tourney.app: hiddenapi: Accessing hidden field Ljava/net/Socket;->impl:Ljava/net/SocketImpl; (runtime_flags=0, domain=core-platform, api=unsupported) from Lcom/google/android/gms/org/conscrypt/Platform; (domain=app) using reflection: allowed
+07-19 10:42:39.606  8680  9274 I dio.tourney.app: hiddenapi: Accessing hidden method Ljava/security/spec/ECParameterSpec;->setCurveName(Ljava/lang/String;)V (runtime_flags=0, domain=core-platform, api=unsupported) from Lcom/google/android/gms/org/conscrypt/Platform; (domain=app) using reflection: allowed
+07-19 10:42:45.472  8680  8680 D InsetsController: hide(ime(), fromIme=false)
+07-19 10:42:45.472  8680  8680 I ImeTracker: com.aistudio.tourney.app:5df06c41: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: Failed to get service from broker. 
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: java.lang.SecurityException: Unknown calling package name 'com.google.android.gms'.
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at android.os.Parcel.createExceptionOrNull(Parcel.java:3340)
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at android.os.Parcel.createException(Parcel.java:3324)
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at android.os.Parcel.readException(Parcel.java:3307)
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at android.os.Parcel.readException(Parcel.java:3249)
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at bkyb.a(:com.google.android.gms@262532035@26.25.32 (260400-944114241):36)
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at bkvx.y(:com.google.android.gms@262532035@26.25.32 (260400-944114241):143)
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at bkbz.run(:com.google.android.gms@262532035@26.25.32 (260400-944114241):42)
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at android.os.Handler.handleCallback(Handler.java:995)
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at android.os.Handler.dispatchMessage(Handler.java:103)
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at ddya.mL(:com.google.android.gms@262532035@26.25.32 (260400-944114241):1)
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at ddya.dispatchMessage(:com.google.android.gms@262532035@26.25.32 (260400-944114241):5)
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at android.os.Looper.loopOnce(Looper.java:248)
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at android.os.Looper.loop(Looper.java:338)
+07-19 10:42:49.359  8680  9266 E GoogleApiManager: 	at android.os.HandlerThread.run(HandlerThread.java:85)
+07-19 10:42:49.359  8680  9266 W GoogleApiManager: Not showing notification since connectionResult is not user-facing: ConnectionResult{statusCode=DEVELOPER_ERROR, resolution=null, message=null, clientMethodKey=null}
+07-19 10:43:10.628  8680  8680 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=androidx.activity.OnBackPressedDispatcher$Api34Impl$createOnBackAnimationCallback$1@71413cf
+07-19 10:43:10.706  8680  8680 D InsetsController: hide(ime(), fromIme=false)
+07-19 10:43:10.706  8680  8680 I ImeTracker: com.aistudio.tourney.app:601a370e: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+07-19 10:43:13.601  8680  8680 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=androidx.activity.OnBackPressedDispatcher$Api34Impl$createOnBackAnimationCallback$1@e2aca0a
+07-19 10:43:24.869  8680  8690 W dio.tourney.app: Cleared Reference was only reachable from finalizer (only reported once)
+07-19 10:43:29.051  8680  8680 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=androidx.activity.OnBackPressedDispatcher$Api34Impl$createOnBackAnimationCallback$1@e2aca0a
+07-19 10:43:55.835  8680  8680 D VRI[MainActivity]: visibilityChanged oldVisibility=true newVisibility=false
+07-19 10:43:58.159  8680  8680 D ViewRootImpl: Skipping stats log for color mode
+07-19 10:43:58.205  8680  8705 I EGL_emulation: Opening libGLESv1_CM_emulation.so
+07-19 10:43:58.205  8680  8705 I EGL_emulation: Opening libGLESv2_emulation.so
+07-19 10:43:58.246  8680  8705 W HWUI    : Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+07-19 10:43:58.248  8680  8705 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS
+07-19 10:44:04.271  8680  8680 D InsetsController: hide(ime(), fromIme=false)
+07-19 10:44:04.289  8680  8680 I ImeTracker: com.aistudio.tourney.app:d085639c: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+07-19 10:44:05.508  8680  9514 W HWUI    : Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+07-19 10:44:05.508  8680  9514 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS
+07-19 10:44:05.512  8680  8707 W HWUI    : Image decoding logging dropped!
+
+=== LOGCAT END ===
