@@ -20,6 +20,7 @@ import io.agora.rtc2.IRtcEngineEventHandler
 import io.agora.rtc2.RtcEngine
 import io.agora.rtc2.RtcEngineConfig
 import io.agora.rtc2.video.VideoCanvas
+import io.agora.rtc2.video.VideoEncoderConfiguration
 import io.agora.rtc2.ScreenCaptureParameters
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
@@ -148,6 +149,15 @@ fun StreamScreen(channelName: String, isBroadcaster: Boolean, onBack: () -> Unit
                             engine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING)
                             engine.setClientRole(if (isBroadcaster) Constants.CLIENT_ROLE_BROADCASTER else Constants.CLIENT_ROLE_AUDIENCE)
                             engine.enableVideo()
+                            
+                            engine.setVideoEncoderConfiguration(
+                                VideoEncoderConfiguration(
+                                    VideoEncoderConfiguration.VD_1280x720,
+                                    VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_30,
+                                    VideoEncoderConfiguration.STANDARD_BITRATE,
+                                    VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_ADAPTIVE
+                                )
+                            )
                             
                             if (isBroadcaster) {
                                 if (isScreenShare) {
